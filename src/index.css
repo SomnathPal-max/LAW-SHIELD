@@ -8,6 +8,20 @@
 body {
   background-color: #0A0A0A;
   color: #F5F5F5;
+  -webkit-user-select: none; /* Prevent text selection */
+  user-select: none;
+}
+
+@media print {
+  body {
+    display: none !important;
+  }
+}
+
+/* Allow text selection in inputs and textareas */
+input, textarea, .allow-select {
+  -webkit-user-select: text;
+  user-select: text;
 }
 
 #root {

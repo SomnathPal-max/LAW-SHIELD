@@ -17,7 +17,13 @@ export function AIAssistant() {
     const saved = localStorage.getItem('lawshield_chat_history');
     if (saved) {
       try {
-        return JSON.parse(saved);
+        // Base64 decode to obfuscate from casual DevTools snooping
+        try {
+          return JSON.parse(atob(saved));
+        } catch (e) {
+          // Fallback to plain JSON for backward compatibility
+          return JSON.parse(saved);
+        }
       } catch (e) {
         console.error('Failed to parse chat history', e);
       }
@@ -43,8 +49,19 @@ export function AIAssistant() {
 
   useEffect(() => {
     scrollToBottom();
-    localStorage.setItem('lawshield_chat_history', JSON.stringify(messages));
+    // Base64 encode before saving
+    localStorage.setItem('lawshield_chat_history', btoa(JSON.stringify(messages)));
   }, [messages]);
+
+  const handleClearChat = () => {
+    if (window.confirm("Are you sure you want to clear your chat history for privacy?")) {
+      setMessages([{
+        id: '1',
+        role: 'assistant',
+        content: 'Hello. I am the LawShield AI Assistant. I can help explain your legal rights regarding safety, harassment, or domestic violence in simple terms. How can I assist you today?'
+      }]);
+    }
+  };
 
   useEffect(() => {
     if (SpeechRecognition) {
@@ -140,13 +157,7 @@ export function AIAssistant() {
         </div>
         {messages.length > 1 && (
           <button 
-            onClick={() => {
-              setMessages([{
-                id: '1',
-                role: 'assistant',
-                content: 'Hello. I am the LawShield AI Assistant. I can help explain your legal rights regarding safety, harassment, or domestic violence in simple terms. How can I assist you today?'
-              }]);
-            }}
+            onClick={handleClearChat}
             className="text-[9px] uppercase tracking-[0.2em] text-white/40 hover:text-white transition-colors border border-white/20 hover:border-white px-3 py-1.5"
           >
             Clear History

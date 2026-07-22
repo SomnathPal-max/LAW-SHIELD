@@ -74,7 +74,18 @@ export function Navigation({ currentView, setView, isLightMode = false, toggleTh
           ))}
         </nav>
 
-
+        <div className="p-8 mt-auto border-t border-white/10">
+          <button
+            onClick={() => {
+              localStorage.clear();
+              window.location.replace('https://www.google.com');
+            }}
+            className="w-full flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white px-4 py-3 transition-colors uppercase tracking-[0.2em] text-[10px] font-bold"
+          >
+            Quick Exit
+          </button>
+          <p className="text-[8px] uppercase tracking-widest text-white/30 text-center mt-3">Clears all data & exits</p>
+        </div>
       </div>
       
       {/* Mobile Overlay */}
