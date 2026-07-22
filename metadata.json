@@ -1,0 +1,6 @@
+{
+  "name": "LawShield",
+  "description": "A personal legal assistant website focused on women's safety, helping women understand their legal rights and protections in simple language.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
