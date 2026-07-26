@@ -44,7 +44,49 @@ export function LawsLibrary() {
   };
 
   const categories = Array.from(new Set(LAWS_LIBRARY.map(law => law.category)));
-  const jurisdictions = Array.from(new Set(LAWS_LIBRARY.map(law => law.jurisdiction || 'National')));
+  const ALL_REGIONS = [
+    "Andaman and Nicobar Islands",
+    "Andhra Pradesh",
+    "Arunachal Pradesh",
+    "Assam",
+    "Bihar",
+    "Chandigarh",
+    "Chhattisgarh",
+    "Dadra and Nagar Haveli and Daman and Diu",
+    "Delhi",
+    "Goa",
+    "Gujarat",
+    "Haryana",
+    "Himachal Pradesh",
+    "Jammu and Kashmir",
+    "Jharkhand",
+    "Karnataka",
+    "Kerala",
+    "Ladakh",
+    "Lakshadweep",
+    "Madhya Pradesh",
+    "Maharashtra",
+    "Manipur",
+    "Meghalaya",
+    "Mizoram",
+    "Nagaland",
+    "Odisha",
+    "Puducherry",
+    "Punjab",
+    "Rajasthan",
+    "Sikkim",
+    "Tamil Nadu",
+    "Telangana",
+    "Tripura",
+    "Uttar Pradesh",
+    "Uttarakhand",
+    "West Bengal"
+  ];
+  const jurisdictions = Array.from(new Set([...LAWS_LIBRARY.map(law => law.jurisdiction || 'National'), ...ALL_REGIONS]));
+  const sortedJurisdictions = [
+    'National',
+    ...jurisdictions.filter(j => j !== 'National').sort()
+  ];
 
   const filteredLaws = LAWS_LIBRARY.filter(law => {
     const matchesSearch = law.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
@@ -90,7 +132,7 @@ export function LawsLibrary() {
               className="bg-transparent border-b border-white/20 text-[10px] uppercase tracking-[0.2em] text-white focus:outline-none pb-1"
             >
               <option value="All" className="bg-[#0A0A0A]">All Regions</option>
-              {jurisdictions.map(j => (
+              {sortedJurisdictions.map(j => (
                 <option key={j} value={j} className="bg-[#0A0A0A]">{j}</option>
               ))}
             </select>

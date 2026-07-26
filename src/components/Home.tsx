@@ -2,6 +2,7 @@ import React from 'react';
 import { ViewState } from '../types';
 import { ArrowRight } from 'lucide-react';
 import { motion } from 'motion/react';
+import { HeroBrandMark } from './HeroBrandMark';
 
 interface HomeProps {
   setView: (view: ViewState) => void;
@@ -23,35 +24,45 @@ const itemVariants = {
 export function Home({ setView }: HomeProps) {
   return (
     <motion.div 
-      className="max-w-6xl mx-auto flex flex-col h-full p-4 md:p-8"
+      className="max-w-6xl mx-auto flex flex-col h-full p-4 md:p-8 space-y-12"
       variants={containerVariants}
       initial="hidden"
       animate="visible"
     >
-      {/* Hero Section */}
-      <div className="relative mb-16 md:mb-24 mt-8 md:mt-16 flex flex-col">
-        <motion.h1 variants={itemVariants} className="text-5xl md:text-7xl lg:text-[100px] leading-[0.9] font-serif italic font-normal tracking-tight md:ml-8">
+      {/* Animated Law Firm Brand Mark Hero Section */}
+      <motion.div variants={itemVariants} className="w-full">
+        <HeroBrandMark 
+          firmName="LAWSHIELD & ASSOCIATES"
+          tagline="PRESTIGE • ADVOCACY • JUSTICE • PROTECTION"
+          autoLoop={true}
+          loopIntervalMs={9000}
+        />
+      </motion.div>
+
+      {/* Primary Headline & Description */}
+      <div className="relative mb-12 flex flex-col">
+        <motion.h2 variants={itemVariants} className="text-4xl md:text-6xl lg:text-7xl leading-[0.95] font-serif italic font-normal tracking-tight md:ml-4">
           Understand your <br className="hidden md:block"/> rights.
-        </motion.h1>
-        <motion.h1 variants={itemVariants} className="text-5xl md:text-7xl lg:text-[100px] leading-[0.9] font-serif italic font-normal tracking-tight md:ml-16 lg:ml-32 mt-2 md:mt-0 text-white/60">
+        </motion.h2>
+        <motion.h2 variants={itemVariants} className="text-4xl md:text-6xl lg:text-7xl leading-[0.95] font-serif italic font-normal tracking-tight md:ml-12 lg:ml-24 mt-2 md:mt-0 text-white/60">
           Protect your future.
-        </motion.h1>
+        </motion.h2>
         
-        <div className="mt-12 md:mt-20 flex flex-col md:flex-row gap-10 md:items-end md:ml-8">
-          <motion.div variants={itemVariants} className="md:w-1/2">
-            <p className="text-sm leading-relaxed opacity-80 mb-8 max-w-md">
+        <div className="mt-8 flex flex-col md:flex-row gap-8 md:items-end md:ml-4">
+          <motion.div variants={itemVariants} className="md:w-3/4 lg:w-1/2">
+            <p className="text-sm leading-relaxed opacity-80 mb-6 max-w-md">
               LawShield translates complex legal jargon into simple language. Get instant access to women's safety laws, AI-powered legal guidance, and emergency resources.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <button 
                 onClick={() => setView('assistant')}
-                className="px-6 py-4 border border-white text-[10px] uppercase tracking-[0.2em] hover:bg-white hover:text-black transition-colors flex items-center justify-center gap-3"
+                className="px-6 py-3.5 border border-[#c9a24b] text-[10px] uppercase tracking-[0.2em] bg-[#13223f]/80 text-[#f3d68a] hover:bg-[#c9a24b] hover:text-black transition-all flex items-center justify-center gap-3 font-semibold shadow-md"
               >
                 Ask AI Assistant <ArrowRight className="w-4 h-4" />
               </button>
               <button 
                 onClick={() => setView('emergency')}
-                className="px-6 py-4 bg-white text-black border border-white text-[10px] uppercase tracking-[0.2em] hover:bg-transparent hover:text-white transition-colors"
+                className="px-6 py-3.5 bg-red-600/90 text-white border border-red-500 text-[10px] uppercase tracking-[0.2em] hover:bg-red-700 transition-colors font-bold shadow-md"
               >
                 Emergency Help
               </button>
@@ -61,40 +72,41 @@ export function Home({ setView }: HomeProps) {
       </div>
 
       {/* Features Grid */}
-      <motion.div variants={itemVariants} className="mt-auto grid md:grid-cols-3 gap-8 pt-12 border-t border-white/20 pb-8">
+      <motion.div variants={itemVariants} className="mt-auto grid md:grid-cols-3 gap-8 pt-8 border-t border-[#c9a24b]/20 pb-8">
         <div 
           onClick={() => setView('assistant')}
-          className="group cursor-pointer flex flex-col h-full"
+          className="group cursor-pointer flex flex-col h-full p-5 rounded-xl bg-[#0c1729]/60 border border-[#c9a24b]/10 hover:border-[#c9a24b]/40 transition-all"
         >
-          <h3 className="text-lg font-serif italic mb-4">01. AI Legal Assistant</h3>
-          <p className="text-xs opacity-60 leading-relaxed mb-6 flex-1">
+          <h3 className="text-lg font-cinzel text-gold-gradient font-bold mb-3">01. AI Legal Assistant</h3>
+          <p className="text-xs opacity-70 leading-relaxed mb-6 flex-1">
             Chat with our AI to get immediate, easy-to-understand explanations of your legal rights and possible next steps.
           </p>
-          <div className="h-px w-full bg-white/10 group-hover:bg-white/40 transition-colors"></div>
+          <div className="h-px w-full bg-[#c9a24b]/20 group-hover:bg-[#f3d68a]/60 transition-colors"></div>
         </div>
 
         <div 
           onClick={() => setView('library')}
-          className="group cursor-pointer flex flex-col h-full"
+          className="group cursor-pointer flex flex-col h-full p-5 rounded-xl bg-[#0c1729]/60 border border-[#c9a24b]/10 hover:border-[#c9a24b]/40 transition-all"
         >
-          <h3 className="text-lg font-serif italic mb-4">02. Smart Law Search</h3>
-          <p className="text-xs opacity-60 leading-relaxed mb-6 flex-1">
+          <h3 className="text-lg font-cinzel text-gold-gradient font-bold mb-3">02. Smart Law Search</h3>
+          <p className="text-xs opacity-70 leading-relaxed mb-6 flex-1">
             Browse our comprehensive library of women's safety laws, translated from complex jargon into plain English.
           </p>
-          <div className="h-px w-full bg-white/10 group-hover:bg-white/40 transition-colors"></div>
+          <div className="h-px w-full bg-[#c9a24b]/20 group-hover:bg-[#f3d68a]/60 transition-colors"></div>
         </div>
 
         <div 
           onClick={() => setView('generator')}
-          className="group cursor-pointer flex flex-col h-full"
+          className="group cursor-pointer flex flex-col h-full p-5 rounded-xl bg-[#0c1729]/60 border border-[#c9a24b]/10 hover:border-[#c9a24b]/40 transition-all"
         >
-          <h3 className="text-lg font-serif italic mb-4">03. Document Generator</h3>
-          <p className="text-xs opacity-60 leading-relaxed mb-6 flex-1">
+          <h3 className="text-lg font-cinzel text-gold-gradient font-bold mb-3">03. Document Generator</h3>
+          <p className="text-xs opacity-70 leading-relaxed mb-6 flex-1">
             Quickly generate formal draft complaints or grievance letters to submit to authorities or employers.
           </p>
-          <div className="h-px w-full bg-white/10 group-hover:bg-white/40 transition-colors"></div>
+          <div className="h-px w-full bg-[#c9a24b]/20 group-hover:bg-[#f3d68a]/60 transition-colors"></div>
         </div>
       </motion.div>
     </motion.div>
   );
 }
+

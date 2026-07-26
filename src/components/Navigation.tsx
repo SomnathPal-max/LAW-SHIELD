@@ -1,6 +1,7 @@
 import React from 'react';
 import { ViewState } from '../types';
 import { Shield, BookOpen, MessageSquare, FileText, Phone, Menu, X, Sun, Moon } from 'lucide-react';
+import { NavbarLogo } from './NavbarLogo';
 
 interface NavigationProps {
   currentView: ViewState;
@@ -23,17 +24,17 @@ export function Navigation({ currentView, setView, isLightMode = false, toggleTh
   return (
     <>
       {/* Mobile Header */}
-      <div className="md:hidden flex items-center justify-between p-6 bg-[#0A0A0A] border-b border-white/20 sticky top-0 z-30">
-        <div className="text-xl font-bold tracking-tighter uppercase text-[#F5F5F5]">
-          LawShield
-        </div>
-        <div className="flex items-center gap-4">
+      <div className="md:hidden flex items-center justify-between p-4 bg-[#0c1729] border-b border-[#c9a24b]/20 sticky top-0 z-50">
+        <button onClick={() => setView('home')} className="text-left">
+          <NavbarLogo size={32} showTagline={false} />
+        </button>
+        <div className="flex items-center gap-3">
           {toggleTheme && (
             <button onClick={toggleTheme} className="text-white/60 hover:text-white transition-colors">
               {isLightMode ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
             </button>
           )}
-          <button onClick={() => setIsOpen(!isOpen)} className="p-2 text-white/60">
+          <button onClick={() => setIsOpen(!isOpen)} className="p-2 text-white/60 relative z-50">
             {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
@@ -41,16 +42,16 @@ export function Navigation({ currentView, setView, isLightMode = false, toggleTh
 
       {/* Sidebar / Drawer */}
       <div className={`
-        fixed inset-y-0 left-0 z-20 w-64 pt-24 md:pt-0 bg-[#0A0A0A] border-r border-white/10 transform transition-transform duration-200 ease-in-out
+        fixed inset-y-0 left-0 z-40 w-64 pt-24 md:pt-0 bg-[#0c1729] border-r border-[#c9a24b]/20 transform transition-transform duration-200 ease-in-out
         md:translate-x-0 md:static md:flex-shrink-0 flex flex-col
         ${isOpen ? 'translate-x-0' : '-translate-x-full'}
       `}>
-        <div className="hidden md:flex p-8 border-b border-white/10 mb-8 items-center justify-between">
-          <div className="text-2xl font-bold tracking-tighter uppercase text-[#F5F5F5]">
-            LawShield.01
-          </div>
+        <div className="hidden md:flex p-6 border-b border-[#c9a24b]/20 mb-6 items-center justify-between">
+          <button onClick={() => setView('home')} className="text-left">
+            <NavbarLogo size={36} showTagline={true} tagline="LEGAL ADVOCACY" />
+          </button>
           {toggleTheme && (
-            <button onClick={toggleTheme} className="text-white/40 hover:text-white transition-colors ml-4 hidden md:block">
+            <button onClick={toggleTheme} className="text-white/40 hover:text-white transition-colors ml-2 hidden md:block">
               {isLightMode ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
             </button>
           )}
@@ -80,7 +81,7 @@ export function Navigation({ currentView, setView, isLightMode = false, toggleTh
               localStorage.clear();
               window.location.replace('https://www.google.com');
             }}
-            className="w-full flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white px-4 py-3 transition-colors uppercase tracking-[0.2em] text-[10px] font-bold"
+            className="w-full flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white px-4 py-3 transition-colors uppercase tracking-[0.2em] text-[10px] font-bold relative z-50"
           >
             Quick Exit
           </button>
@@ -91,7 +92,7 @@ export function Navigation({ currentView, setView, isLightMode = false, toggleTh
       {/* Mobile Overlay */}
       {isOpen && (
         <div 
-          className="fixed inset-0 bg-black/80 z-10 md:hidden backdrop-blur-sm"
+          className="fixed inset-0 bg-black/80 z-30 md:hidden backdrop-blur-sm"
           onClick={() => setIsOpen(false)}
         />
       )}
