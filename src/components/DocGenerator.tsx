@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import jsPDF from 'jspdf';
+import CryptoJS from 'crypto-js';
+import { Lock, Unlock, Download } from 'lucide-react';
 
 export function DocGenerator() {
   const [formData, setFormData] = useState({
@@ -13,6 +15,8 @@ export function DocGenerator() {
   const [generatedDoc, setGeneratedDoc] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const [showEncryptionInput, setShowEncryptionInput] = useState(false);
+  const [encryptionPassword, setEncryptionPassword] = useState('');
 
   const docTypes = [
     'Workplace Harassment Complaint (ICC)',
@@ -77,6 +81,29 @@ export function DocGenerator() {
     });
     
     doc.save('Legal_Document.pdf');
+  };
+
+  const exportToEncryptedFile = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!generatedDoc || !encryptionPassword) return;
+    
+    try {
+      const encrypted = CryptoJS.AES.encrypt(generatedDoc, encryptionPassword).toString();
+      const blob = new Blob([encrypted], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'Encrypted_Document.lawshield';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      
+      setShowEncryptionInput(false);
+      setEncryptionPassword('');
+    } catch (err) {
+      console.error('Encryption failed', err);
+    }
   };
 
   return (
@@ -163,9 +190,51 @@ export function DocGenerator() {
                 >
                   Export PDF
                 </button>
+                <button 
+                  onClick={() => setShowEncryptionInput(!showEncryptionInput)}
+                  className={`text-[9px] uppercase tracking-[0.2em] transition-colors flex items-center gap-1.5 ${showEncryptionInput ? 'text-[#c9a24b]' : 'text-white/60 hover:text-white'}`}
+                >
+                  <Lock className="w-3 h-3" />
+                  Secure Export
+                </button>
               </div>
             )}
           </div>
+          
+          <AnimatePresence>
+            {showEncryptionInput && generatedDoc && (
+              <motion.div 
+                initial={{ opacity: 0, height: 0, marginBottom: 0 }}
+                animate={{ opacity: 1, height: 'auto', marginBottom: 24 }}
+                exit={{ opacity: 0, height: 0, marginBottom: 0 }}
+                className="overflow-hidden"
+              >
+                <div className="p-5 border border-[#c9a24b]/30 bg-[#c9a24b]/5 space-y-4">
+                  <div className="flex flex-col space-y-1">
+                    <label className="text-[10px] uppercase tracking-widest text-[#c9a24b] font-bold">Set Encryption Password</label>
+                    <p className="text-xs text-white/50">Protect this document. You will need this password to unlock it later.</p>
+                  </div>
+                  <form onSubmit={exportToEncryptedFile} className="flex gap-4">
+                    <input
+                      type="password"
+                      value={encryptionPassword}
+                      onChange={(e) => setEncryptionPassword(e.target.value)}
+                      placeholder="ENTER PASSWORD"
+                      className="flex-1 bg-[#0A0A0A] border border-white/20 px-4 py-2 text-xs uppercase tracking-widest text-white focus:outline-none focus:border-[#c9a24b] transition-colors"
+                    />
+                    <button
+                      type="submit"
+                      disabled={!encryptionPassword}
+                      className="px-4 py-2 bg-[#c9a24b] text-black text-[10px] font-bold uppercase tracking-widest hover:bg-[#c9a24b]/90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                    >
+                      <Download className="w-3.5 h-3.5" />
+                      Encrypt & Save
+                    </button>
+                  </form>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
           
           <div className="flex-1 bg-neutral-900/30 border border-white/10 p-8 overflow-y-auto">
             <AnimatePresence mode="wait">

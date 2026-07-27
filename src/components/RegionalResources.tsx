@@ -1,12 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { REGIONAL_SUPPORT_RESOURCES, INDIAN_STATES_AND_UTS, SupportResource } from '../data/regionalResourcesData';
 import { motion, AnimatePresence } from 'motion/react';
-import { MapPin, Phone, Mail, Clock, ShieldAlert, Building2, Scale, HeartHandshake, Copy, Check, ExternalLink, Filter } from 'lucide-react';
+import { MapPin, Phone, Mail, Clock, ShieldAlert, Building2, Scale, HeartHandshake, Copy, Check, ExternalLink, Filter, Bookmark, BookmarkCheck } from 'lucide-react';
 
 export function RegionalResources() {
   const [selectedState, setSelectedState] = useState<string>('Delhi');
   const [activeCategory, setActiveCategory] = useState<string>('All');
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [showBookmarksOnly, setShowBookmarksOnly] = useState(false);
+  const [bookmarkedIds, setBookmarkedIds] = useState<string[]>(() => {
+    try {
+      const saved = localStorage.getItem('lawshield_resource_bookmarks');
+      return saved ? JSON.parse(saved) : [];
+    } catch (e) {
+      console.error('Failed to parse bookmarks', e);
+      return [];
+    }
+  });
+
+  useEffect(() => {
+    localStorage.setItem('lawshield_resource_bookmarks', JSON.stringify(bookmarkedIds));
+  }, [bookmarkedIds]);
+
+  const toggleBookmark = (id: string) => {
+    setBookmarkedIds(prev => 
+      prev.includes(id) ? prev.filter(b => b !== id) : [...prev, id]
+    );
+  };
 
   const categories = ['All', 'Police & Emergency', 'One Stop Center (Sakhi)', 'Free Legal Aid (DLSA)', 'Women Commission'];
 
@@ -15,7 +35,8 @@ export function RegionalResources() {
       ? true 
       : (res.stateOrUT === selectedState || res.stateOrUT === 'National Support (All States & UTs)');
     const matchesCategory = activeCategory === 'All' ? true : res.category === activeCategory;
-    return matchesState && matchesCategory;
+    const matchesBookmark = showBookmarksOnly ? bookmarkedIds.includes(res.id) : true;
+    return matchesState && matchesCategory && matchesBookmark;
   });
 
   const handleCopyPhone = (id: string, phone: string) => {
@@ -85,6 +106,17 @@ export function RegionalResources() {
                   {cat}
                 </button>
               ))}
+              <button
+                onClick={() => setShowBookmarksOnly(!showBookmarksOnly)}
+                className={`text-[10px] uppercase tracking-wider px-3 py-1.5 rounded border transition-all flex items-center gap-1.5 ${
+                  showBookmarksOnly
+                    ? 'bg-[#c9a24b] text-black border-[#c9a24b] font-bold'
+                    : 'bg-white/5 text-white/60 border-white/10 hover:border-white/30 hover:text-white'
+                }`}
+              >
+                {showBookmarksOnly ? <BookmarkCheck className="w-3.5 h-3.5" /> : <Bookmark className="w-3.5 h-3.5" />}
+                SAVED
+              </button>
             </div>
           </div>
         </div>
@@ -111,9 +143,22 @@ export function RegionalResources() {
                     {getCategoryIcon(res.category)}
                     <span>{res.category}</span>
                   </span>
-                  <span className="text-[9px] uppercase tracking-widest text-white/40 font-mono">
-                    {res.stateOrUT}
-                  </span>
+                  <div className="flex items-center gap-3">
+                    <span className="text-[9px] uppercase tracking-widest text-white/40 font-mono">
+                      {res.stateOrUT}
+                    </span>
+                    <button
+                      onClick={() => toggleBookmark(res.id)}
+                      className="text-white/40 hover:text-white transition-colors"
+                      title={bookmarkedIds.includes(res.id) ? "Remove bookmark" : "Save resource"}
+                    >
+                      {bookmarkedIds.includes(res.id) ? (
+                        <BookmarkCheck className="w-4 h-4 text-[#c9a24b]" />
+                      ) : (
+                        <Bookmark className="w-4 h-4" />
+                      )}
+                    </button>
+                  </div>
                 </div>
 
                 <h3 className="text-xl font-serif text-white leading-tight">

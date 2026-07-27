@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { LEGAL_QUIZ_QUESTIONS, QuizQuestion } from '../data/quizData';
 import { motion, AnimatePresence } from 'motion/react';
-import { CheckCircle2, XCircle, Award, RotateCcw, HelpCircle, ArrowRight, ShieldCheck, Sparkles } from 'lucide-react';
+import { CheckCircle2, XCircle, Award, RotateCcw, HelpCircle, ArrowRight, ShieldCheck, Sparkles, Volume2, Square } from 'lucide-react';
 
 export function LegalQuiz() {
   const [questions] = useState<QuizQuestion[]>(LEGAL_QUIZ_QUESTIONS);
@@ -11,6 +11,30 @@ export function LegalQuiz() {
   const [score, setScore] = useState(0);
   const [answersHistory, setAnswersHistory] = useState<{ questionId: string; isCorrect: boolean }[]>([]);
   const [isQuizCompleted, setIsQuizCompleted] = useState(false);
+  const [speakingId, setSpeakingId] = useState<string | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (typeof window !== 'undefined' && window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+      }
+    };
+  }, []);
+
+  const toggleSpeech = (text: string) => {
+    if (typeof window === 'undefined' || !window.speechSynthesis) return;
+    
+    if (speakingId === 'explanation') {
+      window.speechSynthesis.cancel();
+      setSpeakingId(null);
+    } else {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.onend = () => setSpeakingId(null);
+      window.speechSynthesis.speak(utterance);
+      setSpeakingId('explanation');
+    }
+  };
 
   const currentQuestion = questions[currentIndex];
 
@@ -30,6 +54,10 @@ export function LegalQuiz() {
   };
 
   const handleNextQuestion = () => {
+    if (typeof window !== 'undefined' && window.speechSynthesis) {
+      window.speechSynthesis.cancel();
+      setSpeakingId(null);
+    }
     if (currentIndex + 1 < questions.length) {
       setCurrentIndex(prev => prev + 1);
       setSelectedOption(null);
@@ -165,12 +193,23 @@ export function LegalQuiz() {
                 animate={{ opacity: 1, y: 0 }}
                 className="space-y-4 border-t border-white/10 pt-5 mt-4"
               >
-                <div className={`p-4 rounded-lg border ${
+                <div className={`p-4 rounded-lg border relative ${
                   selectedOption === currentQuestion.correctAnswerIndex 
                     ? 'bg-emerald-950/30 border-emerald-500/30 text-emerald-200' 
                     : 'bg-red-950/30 border-red-500/30 text-red-200'
                 }`}>
-                  <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-wider mb-2 font-bold">
+                  <button
+                    onClick={() => toggleSpeech(currentQuestion.explanation)}
+                    className="absolute top-4 right-4 text-white/40 hover:text-white transition-colors"
+                    title={speakingId === 'explanation' ? "Stop reading" : "Read aloud"}
+                  >
+                    {speakingId === 'explanation' ? (
+                      <Square className="w-4 h-4 text-amber-400" />
+                    ) : (
+                      <Volume2 className="w-4 h-4" />
+                    )}
+                  </button>
+                  <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-wider mb-2 font-bold pr-8">
                     {selectedOption === currentQuestion.correctAnswerIndex ? (
                       <>
                         <CheckCircle2 className="w-4 h-4 text-emerald-400" />

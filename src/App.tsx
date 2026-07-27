@@ -13,6 +13,7 @@ import { LegalQuiz } from './components/LegalQuiz';
 import { RegionalResources } from './components/RegionalResources';
 import { DocGenerator } from './components/DocGenerator';
 import { Emergency } from './components/Emergency';
+import { OnboardingTour } from './components/OnboardingTour';
 import { motion, AnimatePresence } from 'motion/react';
 
 const INACTIVITY_TIMEOUT = 5 * 60 * 1000; // 5 minutes
@@ -21,6 +22,19 @@ export default function App() {
   const [currentView, setCurrentView] = useState<ViewState>('home');
   const [isLightMode, setIsLightMode] = useState(false);
   const [isObfuscated, setIsObfuscated] = useState(false);
+  const [showTour, setShowTour] = useState(false);
+
+  useEffect(() => {
+    const hasSeenTour = localStorage.getItem('lawshield_has_seen_tour');
+    if (!hasSeenTour) {
+      setShowTour(true);
+    }
+  }, []);
+
+  const handleCompleteTour = () => {
+    localStorage.setItem('lawshield_has_seen_tour', 'true');
+    setShowTour(false);
+  };
 
   useEffect(() => {
     let inactivityTimer: number;
@@ -79,6 +93,9 @@ export default function App() {
           <p className="text-white/40 tracking-widest text-sm uppercase">Session Paused</p>
         </div>
       )}
+      <AnimatePresence>
+        {showTour && <OnboardingTour onComplete={handleCompleteTour} />}
+      </AnimatePresence>
       <Navigation currentView={currentView} setView={setCurrentView} isLightMode={isLightMode} toggleTheme={() => setIsLightMode(!isLightMode)} />
       <main className="flex-1 overflow-y-auto overflow-x-hidden relative">
         <AnimatePresence mode="wait">
