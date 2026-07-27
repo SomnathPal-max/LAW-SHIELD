@@ -67,7 +67,7 @@ KEY OPERATIONAL DIRECTIVES:
       });
 
       const response = await ai.models.generateContent({
-        model: 'gemini-3.6-flash',
+        model: 'gemini-2.5-flash',
         contents: contents,
         config: {
           systemInstruction: systemInstruction,
@@ -96,7 +96,7 @@ Write a formal, professional draft that the user can submit to the authorities (
 Do not add introductory conversational text, output only the document draft.`;
 
           const response = await ai.models.generateContent({
-              model: 'gemini-3.6-flash',
+              model: 'gemini-2.5-flash',
               contents: prompt,
           });
 
