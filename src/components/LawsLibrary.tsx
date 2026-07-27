@@ -155,8 +155,8 @@ export function LawsLibrary() {
       </div>
 
       {/* Sub Header / Filters */}
-      <div className="flex flex-col md:flex-row gap-8 items-start justify-between">
-        <div className="w-full md:w-1/2 space-y-4">
+      <div className="flex flex-col lg:flex-row gap-8 items-start justify-between">
+        <div className="w-full lg:w-5/12 space-y-4 shrink-0">
           <div className="relative">
             <input
               type="text"
@@ -169,13 +169,13 @@ export function LawsLibrary() {
           </div>
 
           {activeTab === 'laws' && (
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <span className="text-[9px] uppercase tracking-[0.2em] opacity-40">Region:</span>
+            <div className="flex flex-wrap items-center gap-4 justify-between">
+              <div className="flex items-center gap-2">
+                <span className="text-[9px] uppercase tracking-[0.2em] opacity-40 shrink-0">Region:</span>
                 <select 
                   value={activeJurisdiction}
                   onChange={(e) => setActiveJurisdiction(e.target.value)}
-                  className="bg-transparent border-b border-white/20 text-[10px] uppercase tracking-[0.2em] text-white focus:outline-none pb-1"
+                  className="bg-transparent border-b border-white/20 text-[10px] uppercase tracking-[0.2em] text-white focus:outline-none pb-1 w-[130px] sm:w-[180px] text-ellipsis overflow-hidden"
                 >
                   <option value="All" className="bg-[#0A0A0A]">All Regions</option>
                   {sortedJurisdictions.map(j => (
@@ -186,7 +186,7 @@ export function LawsLibrary() {
 
               <button 
                 onClick={() => setShowBookmarks(!showBookmarks)}
-                className={`text-[9px] uppercase tracking-[0.2em] transition-colors border px-3 py-1 flex items-center gap-1.5
+                className={`text-[9px] uppercase tracking-[0.2em] transition-colors border px-3 py-1 flex items-center gap-1.5 shrink-0
                   ${showBookmarks ? 'border-white text-white' : 'border-white/20 text-white/40 hover:text-white hover:border-white/40'}
                 `}
               >
@@ -198,7 +198,7 @@ export function LawsLibrary() {
         </div>
 
         {/* Category Buttons */}
-        <div className="flex flex-wrap gap-3 w-full md:w-auto text-[10px] uppercase tracking-[0.2em]">
+        <div className="flex flex-wrap gap-3 w-full lg:w-7/12 text-[10px] uppercase tracking-[0.2em] lg:justify-end">
           <button
             onClick={() => setActiveCategory(null)}
             className={`pb-1 border-b transition-colors ${
