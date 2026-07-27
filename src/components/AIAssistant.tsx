@@ -49,8 +49,7 @@ export function AIAssistant() {
 
   useEffect(() => {
     scrollToBottom();
-    // Base64 encode before saving
-    localStorage.setItem('lawshield_chat_history', btoa(JSON.stringify(messages)));
+    localStorage.setItem('lawshield_chat_history', JSON.stringify(messages));
   }, [messages]);
 
   const handleClearChat = () => {

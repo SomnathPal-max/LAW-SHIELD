@@ -12,8 +12,13 @@ export function LawsLibrary() {
   const [showBookmarks, setShowBookmarks] = useState(false);
   const [speakingId, setSpeakingId] = useState<string | null>(null);
   const [bookmarks, setBookmarks] = useState<string[]>(() => {
-    const saved = localStorage.getItem('lawshield_bookmarks');
-    return saved ? JSON.parse(saved) : [];
+    try {
+      const saved = localStorage.getItem('lawshield_bookmarks');
+      return saved ? JSON.parse(saved) : [];
+    } catch (e) {
+      console.error('Failed to parse bookmarks', e);
+      return [];
+    }
   });
 
   useEffect(() => {
@@ -22,7 +27,9 @@ export function LawsLibrary() {
 
   useEffect(() => {
     return () => {
-      window.speechSynthesis.cancel();
+      if (typeof window !== 'undefined' && window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+      }
     };
   }, []);
 
@@ -33,6 +40,8 @@ export function LawsLibrary() {
   };
 
   const toggleSpeech = (id: string, text: string) => {
+    if (typeof window === 'undefined' || !window.speechSynthesis) return;
+    
     if (speakingId === id) {
       window.speechSynthesis.cancel();
       setSpeakingId(null);
