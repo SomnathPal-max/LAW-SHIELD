@@ -13,4 +13,4 @@ export interface Law {
   jurisdiction?: string;
 }
 
-export type ViewState = 'home' | 'assistant' | 'library' | 'generator' | 'emergency';
+export type ViewState = 'home' | 'assistant' | 'library' | 'quiz' | 'resources' | 'generator' | 'emergency';

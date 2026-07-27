@@ -72,14 +72,14 @@ export function Home({ setView }: HomeProps) {
       </div>
 
       {/* Features Grid */}
-      <motion.div variants={itemVariants} className="mt-auto grid md:grid-cols-3 gap-8 pt-8 border-t border-[#c9a24b]/20 pb-8">
+      <motion.div variants={itemVariants} className="mt-auto grid sm:grid-cols-2 lg:grid-cols-4 gap-6 pt-8 border-t border-[#c9a24b]/20 pb-8">
         <div 
           onClick={() => setView('assistant')}
           className="group cursor-pointer flex flex-col h-full p-5 rounded-xl bg-[#0c1729]/60 border border-[#c9a24b]/10 hover:border-[#c9a24b]/40 transition-all"
         >
-          <h3 className="text-lg font-cinzel text-gold-gradient font-bold mb-3">01. AI Legal Assistant</h3>
-          <p className="text-xs opacity-70 leading-relaxed mb-6 flex-1">
-            Chat with our AI to get immediate, easy-to-understand explanations of your legal rights and possible next steps.
+          <h3 className="text-base font-cinzel text-gold-gradient font-bold mb-2">01. AI Legal Assistant</h3>
+          <p className="text-xs opacity-70 leading-relaxed mb-4 flex-1">
+            Get instant, accurate responses based on BNS 2023, POSH Act, and women safety laws.
           </p>
           <div className="h-px w-full bg-[#c9a24b]/20 group-hover:bg-[#f3d68a]/60 transition-colors"></div>
         </div>
@@ -88,20 +88,31 @@ export function Home({ setView }: HomeProps) {
           onClick={() => setView('library')}
           className="group cursor-pointer flex flex-col h-full p-5 rounded-xl bg-[#0c1729]/60 border border-[#c9a24b]/10 hover:border-[#c9a24b]/40 transition-all"
         >
-          <h3 className="text-lg font-cinzel text-gold-gradient font-bold mb-3">02. Smart Law Search</h3>
-          <p className="text-xs opacity-70 leading-relaxed mb-6 flex-1">
-            Browse our comprehensive library of women's safety laws, translated from complex jargon into plain English.
+          <h3 className="text-base font-cinzel text-gold-gradient font-bold mb-2">02. Laws & Glossary</h3>
+          <p className="text-xs opacity-70 leading-relaxed mb-4 flex-1">
+            Browse simplified statutes and a comprehensive legal dictionary explaining complex terms.
           </p>
           <div className="h-px w-full bg-[#c9a24b]/20 group-hover:bg-[#f3d68a]/60 transition-colors"></div>
         </div>
 
         <div 
-          onClick={() => setView('generator')}
+          onClick={() => setView('quiz')}
           className="group cursor-pointer flex flex-col h-full p-5 rounded-xl bg-[#0c1729]/60 border border-[#c9a24b]/10 hover:border-[#c9a24b]/40 transition-all"
         >
-          <h3 className="text-lg font-cinzel text-gold-gradient font-bold mb-3">03. Document Generator</h3>
-          <p className="text-xs opacity-70 leading-relaxed mb-6 flex-1">
-            Quickly generate formal draft complaints or grievance letters to submit to authorities or employers.
+          <h3 className="text-base font-cinzel text-gold-gradient font-bold mb-2">03. Legal Awareness Quiz</h3>
+          <p className="text-xs opacity-70 leading-relaxed mb-4 flex-1">
+            Test your knowledge of FIR rights, POSH rules, and domestic violence protections with instant explanations.
+          </p>
+          <div className="h-px w-full bg-[#c9a24b]/20 group-hover:bg-[#f3d68a]/60 transition-colors"></div>
+        </div>
+
+        <div 
+          onClick={() => setView('resources')}
+          className="group cursor-pointer flex flex-col h-full p-5 rounded-xl bg-[#0c1729]/60 border border-[#c9a24b]/10 hover:border-[#c9a24b]/40 transition-all"
+        >
+          <h3 className="text-base font-cinzel text-gold-gradient font-bold mb-2">04. Regional Support</h3>
+          <p className="text-xs opacity-70 leading-relaxed mb-4 flex-1">
+            Find police helpdesks, Sakhi One Stop Centers, and free legal aid (DLSA) in your state/UT.
           </p>
           <div className="h-px w-full bg-[#c9a24b]/20 group-hover:bg-[#f3d68a]/60 transition-colors"></div>
         </div>

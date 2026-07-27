@@ -9,6 +9,8 @@ import { Navigation } from './components/Navigation';
 import { Home } from './components/Home';
 import { AIAssistant } from './components/AIAssistant';
 import { LawsLibrary } from './components/LawsLibrary';
+import { LegalQuiz } from './components/LegalQuiz';
+import { RegionalResources } from './components/RegionalResources';
 import { DocGenerator } from './components/DocGenerator';
 import { Emergency } from './components/Emergency';
 import { motion, AnimatePresence } from 'motion/react';
@@ -62,6 +64,8 @@ export default function App() {
       case 'home': return <Home setView={setCurrentView} />;
       case 'assistant': return <AIAssistant />;
       case 'library': return <LawsLibrary />;
+      case 'quiz': return <LegalQuiz />;
+      case 'resources': return <RegionalResources />;
       case 'generator': return <DocGenerator />;
       case 'emergency': return <Emergency />;
       default: return <Home setView={setCurrentView} />;

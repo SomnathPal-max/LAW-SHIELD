@@ -1,6 +1,6 @@
 import React from 'react';
 import { ViewState } from '../types';
-import { Shield, BookOpen, MessageSquare, FileText, Phone, Menu, X, Sun, Moon } from 'lucide-react';
+import { Shield, BookOpen, MessageSquare, FileText, Phone, Menu, X, Sun, Moon, Award, MapPin } from 'lucide-react';
 import { NavbarLogo } from './NavbarLogo';
 
 interface NavigationProps {
@@ -16,7 +16,9 @@ export function Navigation({ currentView, setView, isLightMode = false, toggleTh
   const navItems: { id: ViewState; label: string; icon: React.ReactNode }[] = [
     { id: 'home', label: 'Home', icon: <Shield className="w-4 h-4" /> },
     { id: 'assistant', label: 'AI Assistant', icon: <MessageSquare className="w-4 h-4" /> },
-    { id: 'library', label: 'Laws Library', icon: <BookOpen className="w-4 h-4" /> },
+    { id: 'library', label: 'Laws & Glossary', icon: <BookOpen className="w-4 h-4" /> },
+    { id: 'quiz', label: 'Legal Quiz', icon: <Award className="w-4 h-4" /> },
+    { id: 'resources', label: 'Nearby Support', icon: <MapPin className="w-4 h-4" /> },
     { id: 'generator', label: 'Doc Generator', icon: <FileText className="w-4 h-4" /> },
     { id: 'emergency', label: 'Emergency Help', icon: <Phone className="w-4 h-4" /> },
   ];
