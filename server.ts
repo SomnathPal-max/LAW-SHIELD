@@ -6,7 +6,7 @@ import { WOMENS_SAFETY_LAWS_KNOWLEDGE_BASE } from './src/data/womensSafetyLawsDa
 
 async function startServer() {
   const app = express();
-  const PORT = 3000;
+  const PORT = process.env.PORT || 3000;
 
   app.use(express.json());
 
